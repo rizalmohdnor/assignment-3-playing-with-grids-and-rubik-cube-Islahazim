@@ -11,12 +11,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '2x2 Rubik\'s Cube',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const CubeScreen(),
+    theme: ThemeData(
+    primarySwatch: Colors.blue,
+    ),
+    home: const CubeScreen(),
     );
-  }
+    }
 }
 
 class CubeState {
@@ -29,18 +29,65 @@ class CubeState {
     [Colors.white, Colors.white, Colors.white, Colors.white], // Bottom
   ];
 
+  void rotateFaceClockwise(int faceIndex) {
+    List<Color> tempFace = [...faces[faceIndex]];
+    faces[faceIndex] = [
+      tempFace[2], tempFace[0],
+      tempFace[3], tempFace[1]
+    ];
+  }
+
   void rotateTop() {
-    List<Color> tempTop = [...faces[4]];
-    faces[4] = [tempTop[2], tempTop[0], tempTop[3], tempTop[1]];
-    List<Color> tempFront = [faces[0][0], faces[0][1]];
+    rotateFaceClockwise(4);
+    List<Color> temp = [faces[0][0], faces[0][1]];
     faces[0][0] = faces[1][0];
     faces[0][1] = faces[1][1];
     faces[1][0] = faces[3][0];
     faces[1][1] = faces[3][1];
     faces[3][0] = faces[2][0];
     faces[3][1] = faces[2][1];
-    faces[2][0] = tempFront[0];
-    faces[2][1] = tempFront[1];
+    faces[2][0] = temp[0];
+    faces[2][1] = temp[1];
+  }
+
+  void rotateBottom() {
+    rotateFaceClockwise(5);
+    List<Color> temp = [faces[0][2], faces[0][3]];
+    faces[0][2] = faces[1][2];
+    faces[0][3] = faces[1][3];
+    faces[1][2] = faces[3][2];
+    faces[1][3] = faces[3][3];
+    faces[3][2] = faces[2][2];
+    faces[3][3] = faces[2][3];
+    faces[2][2] = temp[0];
+    faces[2][3] = temp[1];
+  }
+
+
+  void rotateLeft() {
+    rotateFaceClockwise(1);
+    List<Color> temp = [faces[0][0], faces[0][2]];
+    faces[0][0] = faces[4][0];
+    faces[0][2] = faces[4][2];
+    faces[4][0] = faces[3][3];
+    faces[4][2] = faces[3][1];
+    faces[3][3] = faces[5][0];
+    faces[3][1] = faces[5][2];
+    faces[5][0] = temp[0];
+    faces[5][2] = temp[1];
+  }
+
+  void rotateRight() {
+    rotateFaceClockwise(2);
+    List<Color> temp = [faces[0][1], faces[0][3]];
+    faces[0][1] = faces[5][1];
+    faces[0][3] = faces[5][3];
+    faces[5][1] = faces[3][2];
+    faces[5][3] = faces[3][0];
+    faces[3][2] = faces[4][1];
+    faces[3][0] = faces[4][3];
+    faces[4][1] = temp[0];
+    faces[4][3] = temp[1];
   }
 }
 
@@ -53,12 +100,6 @@ class CubeScreen extends StatefulWidget {
 
 class _CubeScreenState extends State<CubeScreen> {
   CubeState cube = CubeState();
-
-  void rotateTop() {
-    setState(() {
-      cube.rotateTop();
-    });
-  }
 
   Widget buildFace(List<Color> faceColors) {
     return GridView.builder(
@@ -78,12 +119,6 @@ class _CubeScreenState extends State<CubeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('2x2 Rubik\'s Cube'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.rotate_left),
-            onPressed: rotateTop,
-          ),
-        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -145,6 +180,33 @@ class _CubeScreenState extends State<CubeScreen> {
                 height: 100,
                 width: 100,
                 child: buildFace(cube.faces[3]),
+              ),
+            ],
+          ),
+          const SizedBox(height: 20),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () => setState(() => cube.rotateTop()),
+                child: const Text('Rotate Top'),
+              ),
+              ElevatedButton(
+                onPressed: () => setState(() => cube.rotateBottom()),
+                child: const Text('Rotate Bottom'),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                onPressed: () => setState(() => cube.rotateLeft()),
+                child: const Text('Rotate Left'),
+              ),
+              ElevatedButton(
+                onPressed: () => setState(() => cube.rotateRight()),
+                child: const Text('Rotate Right'),
               ),
             ],
           ),
