@@ -20,3 +20,10 @@ by
 
 Tips:
 Make sure to look at https://docs.flutter.dev/cookbook/lists/grid-lists to get a hang of the flutter grid layout which is being used in the code.
+
+## Describtion of work
+1. Fixed the rotation logic for the top face and its adjacent face rows to ensure they update correctly.
+2. Added function to rotate the bottom, right and left face and update its adjacent face rows properly.
+3.Created buttons bottom face, back face of the Rubik's Cube in the app's interface.
+
+Added two buttons, "Rotate Top" and "Rotate Bottom," to allow users to rotate the respective faces of the cube.
