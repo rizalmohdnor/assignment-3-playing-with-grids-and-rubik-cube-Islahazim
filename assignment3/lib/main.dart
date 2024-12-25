@@ -11,12 +11,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: '2x2 Rubik\'s Cube',
-    theme: ThemeData(
-    primarySwatch: Colors.blue,
-    ),
-    home: const CubeScreen(),
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: const CubeScreen(),
     );
-    }
+  }
 }
 
 class CubeState {
@@ -62,7 +62,6 @@ class CubeState {
     faces[2][2] = temp[0];
     faces[2][3] = temp[1];
   }
-
 
   void rotateLeft() {
     rotateFaceClockwise(1);
@@ -187,26 +186,30 @@ class _CubeScreenState extends State<CubeScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ElevatedButton(
+              IconButton(
                 onPressed: () => setState(() => cube.rotateTop()),
-                child: const Text('Rotate Top'),
+                icon: const Icon(Icons.arrow_upward),
+                tooltip: 'Rotate Top',
               ),
-              ElevatedButton(
+              IconButton(
                 onPressed: () => setState(() => cube.rotateBottom()),
-                child: const Text('Rotate Bottom'),
+                icon: const Icon(Icons.arrow_downward),
+                tooltip: 'Rotate Bottom',
               ),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ElevatedButton(
+              IconButton(
                 onPressed: () => setState(() => cube.rotateLeft()),
-                child: const Text('Rotate Left'),
+                icon: const Icon(Icons.rotate_left),
+                tooltip: 'Rotate Left',
               ),
-              ElevatedButton(
+              IconButton(
                 onPressed: () => setState(() => cube.rotateRight()),
-                child: const Text('Rotate Right'),
+                icon: const Icon(Icons.rotate_right),
+                tooltip: 'Rotate Right',
               ),
             ],
           ),
